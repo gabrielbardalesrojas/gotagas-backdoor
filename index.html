@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>GOTAGAS - Servicios de Agua y Gas</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    :root {
+      --primary-color: #0077b6;
+      --secondary-color: #ff7e0f;
+      --light-blue: #90e0ef;
+      --dark-blue: #03045e;
+      --light-gray: #f8f9fa;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+    }
+    
+    /* Navbar */
+    .navbar {
+      transition: all 0.4s;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+    
+    .navbar-brand span.text-primary {
+      color: var(--primary-color) !important;
+    }
+    
+    .navbar-brand span.text-secondary {
+      color: var(--secondary-color) !important;
+    }
+    
+    .nav-link {
+      font-weight: 500;
+      position: relative;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--primary-color);
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+      left: 0;
+    }
+    
+    /* Hero Section */
+    #hero {
+      background: linear-gradient(rgba(0, 119, 182, 0.8), rgba(3, 4, 94, 0.9)), url('/api/placeholder/1600/900') no-repeat center center;
+      background-size: cover;
+      color: white;
+      padding: 120px 0;
+    }
+    
+    /* Sections */
+    section {
+      padding: 80px 0;
+    }
+    
+    .section-title {
+      margin-bottom: 50px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 50px;
+      height: 3px;
+      background: var(--primary-color);
+      bottom: 0;
+      left: 0;
+    }
+    
+    .section-title.text-center::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    /* Cards */
+    .service-card {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+    }
+    
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+    
+    .service-card .card-img-top {
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .service-card .service-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+    
+    /* Alternating sections */
+    .bg-light-blue {
+      background-color: var(--light-blue);
+    }
+    
+    .bg-light-gray {
+      background-color: var(--light-gray);
+    }
+    
+    /* Form */
+    .contact-form {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-control:focus {
+      box-shadow: none;
+      border-color: var(--primary-color);
+    }
+    
+    .form-floating > label {
+      color: #6c757d;
+    }
+    
+    /* Buttons */
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+    
+    .btn-primary:hover {
+      background-color: #005f92;
+      border-color: #005f92;
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary-color);
+      border-color: var(--secondary-color);
+    }
+    
+    .btn-secondary:hover {
+      background-color: #e67100;
+      border-color: #e67100;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--dark-blue);
+      color: white;
+      padding: 50px 0 20px;
+    }
+    
+    footer a {
+      color: var(--light-blue);
+      text-decoration: none;
+    }
+    
+    footer a:hover {
+      color: white;
+    }
+    
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      margin-right: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      background: var(--primary-color);
+      transform: translateY(-3px);
+    }
+    
+    /* Scroll to top button */
+    .back-to-top {
+      position: fixed;
+      visibility: hidden;
+      opacity: 0;
+      right: 15px;
+      bottom: 15px;
+      z-index: 996;
+      background: var(--primary-color);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      transition: all 0.4s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    
+    .back-to-top:hover {
+      background: var(--secondary-color);
+      color: #fff;
+    }
+    
+    .back-to-top.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    /* Testimonials */
+    .testimonial-card {
+      border-radius: 10px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      position: relative;
+    }
+    
+    .testimonial-card::before {
+      content: '\201C';
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      font-size: 80px;
+      color: var(--light-blue);
+      font-family: serif;
+      z-index: -1;
+      opacity: 0.3;
+    }
+    
+    /* Feature boxes */
+    .feature-box {
+      padding: 30px;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+    
+    .feature-box:hover {
+      transform: translateY(-10px);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Back to top button -->
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up"></i>
+  </a>
+
+  <!-- Header/Navbar -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#"><span class="text-primary">GOTA</span><span class="text-secondary">GAS</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link mx-2" href="#hero">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-2" href="#servicios">Servicios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-2" href="#mision">Misión</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-2" href="#vision">Visión</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-2" href="#registro">Contacto</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h1 class="display-4 fw-bold mb-4">Soluciones de Agua y Gas para tu Hogar</h1>
+          <p class="lead mb-4">Proveemos servicios de venta de agua y gas, con precios competitivos de distintas empresas, asegurando el mejor trato para nuestros clientes.</p>
+          <div class="d-flex gap-3">
+            <a href="#servicios" class="btn btn-primary btn-lg">Nuestros Servicios</a>
+            <a href="#registro" class="btn btn-secondary btn-lg">Contáctanos</a>
+          </div>
+        </div>
+        <div class="col-lg-6 d-none d-lg-block">
+          <!-- Esta imagen es un placeholder, deberías reemplazarla con tu propia imagen -->
+          <img src="/imagenes/aguaygas.png" alt="Servicios de agua y gas" class="img-fluid rounded-3 shadow">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Introducción -->
+  <section id="introduccion" class="bg-light-gray">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <h2 class="section-title">Bienvenidos a GOTAGAS</h2>
+          <p class="lead mb-4">Somos expertos en la distribución de agua y gas, brindando un servicio confiable y de calidad para hogares y negocios.</p>
+          <p>En GOTAGAS nos destacamos por:</p>
+          <ul class="list-unstyled">
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Precios competitivos</li>
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Entregas puntuales</li>
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Productos de alta calidad</li>
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Atención personalizada</li>
+          </ul>
+          <a href="#servicios" class="btn btn-primary mt-3">Conoce nuestros servicios</a>
+        </div>
+        <div class="col-lg-6">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <div class="feature-box text-center h-100">
+                <div class="feature-icon">
+                  <i class="bi bi-droplet-fill"></i>
+                </div>
+                <h4>Agua Purificada</h4>
+                <p>De las mejores marcas del mercado para tu salud y bienestar.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="feature-box text-center h-100">
+                <div class="feature-icon">
+                  <i class="bi bi-fire"></i>
+                </div>
+                <h4>Gas de Calidad</h4>
+                <p>Tanques certificados con medidas exactas para tu seguridad.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="feature-box text-center h-100">
+                <div class="feature-icon">
+                  <i class="bi bi-truck"></i>
+                </div>
+                <h4>Entrega a Domicilio</h4>
+                <p>Rápida y eficiente en toda la zona metropolitana.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="feature-box text-center h-100">
+                <div class="feature-icon">
+                  <i class="bi bi-headset"></i>
+                </div>
+                <h4>Atención 24/7</h4>
+                <p>Estamos siempre disponibles para atender tus necesidades.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section id="servicios">
+    <div class="container">
+      <h2 class="section-title text-center">Nuestros Servicios</h2>
+      <p class="text-center mb-5">Ofrecemos agua y gas de las mejores marcas, adaptándonos a las necesidades de nuestros usuarios con precios accesibles.</p>
+
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="service-card card border-0 h-100">
+            <img src="/imagenes/agua.jpeg" class="card-img-top" alt="Servicio de Agua">
+            <div class="card-body text-center">
+              <div class="service-icon text-primary">
+                <i class="bi bi-droplet-fill"></i>
+              </div>
+              <h3 class="card-title">Agua Purificada</h3>
+              <ul class="list-unstyled text-start">
+                <li class="mb-2"><strong>Precio:</strong> $60 por botella de 20L</li>
+                <li class="mb-2"><strong>Empresa:</strong> Agua Clara</li>
+                <li class="mb-2"><strong>Certificación:</strong> 100% purificada</li>
+                <li class="mb-2"><strong>Entrega:</strong> En menos de 2 horas</li>
+              </ul>
+              <a href="#registro" class="btn btn-primary mt-3">Solicitar Ahora</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="service-card card border-0 h-100">
+            <img src="/imagenes/gas.jpeg" class="card-img-top" alt="Servicio de Gas">
+            <div class="card-body text-center">
+              <div class="service-icon text-secondary">
+                <i class="bi bi-fire"></i>
+              </div>
+              <h3 class="card-title">Gas LP</h3>
+              <ul class="list-unstyled text-start">
+                <li class="mb-2"><strong>Precio:</strong> $650 por tanque de 30kg</li>
+                <li class="mb-2"><strong>Empresa:</strong> GasMax</li>
+                <li class="mb-2"><strong>Garantía:</strong> Peso exacto verificado</li>
+                <li class="mb-2"><strong>Entrega:</strong> Mismo día</li>
+              </ul>
+              <a href="#registro" class="btn btn-secondary mt-3">Solicitar Ahora</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonios -->
+  <section class="bg-light-gray">
+    <div class="container">
+      <h2 class="section-title text-center">Lo que dicen nuestros clientes</h2>
+      <div class="row g-4 mt-4">
+        <div class="col-md-4">
+          <div class="testimonial-card bg-white h-100">
+            <div class="mb-3">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+            </div>
+            <p class="mb-4">"Excelente servicio, siempre puntuales con la entrega de agua. Los recomiendo ampliamente, sus precios son los mejores del mercado."</p>
+            <div class="d-flex align-items-center">
+              <div class="flex-grow-1">
+                <h5 class="mb-0">Laura Martínez</h5>
+                <small class="text-muted">Cliente desde 2023</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card bg-white h-100">
+            <div class="mb-3">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+            </div>
+            <p class="mb-4">"El servicio de gas es confiable y seguro. Siempre verifican que no haya fugas y me explican todo el proceso. La tranquilidad no tiene precio."</p>
+            <div class="d-flex align-items-center">
+              <div class="flex-grow-1">
+                <h5 class="mb-0">Carlos Rodríguez</h5>
+                <small class="text-muted">Cliente desde 2022</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card bg-white h-100">
+            <div class="mb-3">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-half text-warning"></i>
+            </div>
+            <p class="mb-4">"Lo que más me gusta es la app para pedidos. Muy intuitiva y rápida. En minutos tengo mi gas en casa sin necesidad de hacer llamadas."</p>
+            <div class="d-flex align-items-center">
+              <div class="flex-grow-1">
+                <h5 class="mb-0">Ana López</h5>
+                <small class="text-muted">Cliente desde 2024</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Misión -->
+  <section id="mision">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 order-lg-2">
+          <h2 class="section-title">Nuestra Misión</h2>
+          <p class="lead mb-4">Brindar un servicio de distribución de agua y gas de alta calidad, adaptado a las exigencias y necesidades de nuestros consumidores, buscando siempre su satisfacción.</p>
+          <p>En GOTAGAS, nos comprometemos a:</p>
+          <ul>
+            <li class="mb-2">Ofrecer productos que cumplan con los más altos estándares de calidad</li>
+            <li class="mb-2">Mantener precios justos y competitivos en el mercado</li>
+            <li class="mb-2">Brindar un servicio al cliente excepcional</li>
+            <li class="mb-2">Operar de manera sostenible y responsable con el medio ambiente</li>
+          </ul>
+        </div>
+        <div class="col-lg-6 order-lg-1 mb-4 mb-lg-0">
+          <img src="/imagenes/aguaygas.png" alt="Nuestra Misión" class="img-fluid rounded-3 shadow">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visión -->
+  <section id="vision" class="bg-light-gray">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title">Nuestra Visión</h2>
+          <p class="lead mb-4">Ser líderes en la distribución de agua y gas, garantizando excelencia, confiabilidad y un compromiso absoluto con el bienestar de nuestros usuarios.</p>
+          <p>Aspiramos a:</p>
+          <ul>
+            <li class="mb-2">Ser reconocidos como la mejor opción en servicios de agua y gas</li>
+            <li class="mb-2">Expandir nuestra cobertura a nivel nacional</li>
+            <li class="mb-2">Implementar tecnologías innovadoras para mejorar la experiencia del cliente</li>
+            <li class="mb-2">Contribuir al desarrollo sostenible de las comunidades donde operamos</li>
+          </ul>
+        </div>
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <img src="/imagenes/aguaygas.png" alt="Nuestra Visión" class="img-fluid rounded-3 shadow">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto/Registro -->
+  <section id="registro">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+          <h2 class="section-title text-center">¡Regístrate y recibe las mejores ofertas!</h2>
+          <p class="mb-5">Completa el formulario y un asesor se pondrá en contacto contigo para brindarte información sobre nuestros servicios y ofertas especiales.</p>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="contact-form">
+            <form  action="https://formsubmit.co/gabriel.osito360@gmail.com" method="POST"id="formulario">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="nombre" placeholder="Tu nombre" required>
+                    <label for="nombre">Nombre completo</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="tel" class="form-control" id="telefono" placeholder="Tu teléfono" required>
+                    <label for="telefono">Teléfono</label>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <input type="email" class="form-control" id="email" placeholder="Tu correo" required>
+                    <label for="email">Correo electrónico</label>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="direccion" placeholder="Tu dirección" required>
+                    <label for="direccion">Dirección</label>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <select class="form-select" id="servicio" required>
+                      <option value="" selected disabled>Selecciona un servicio</option>
+                      <option value="agua">Agua</option>
+                      <option value="gas">Gas</option>
+                      <option value="ambos">Ambos</option>
+                    </select>
+                    <label for="servicio">Servicio de interés</label>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <textarea class="form-control" placeholder="Tu mensaje" id="mensaje" style="height: 120px"></textarea>
+                    <label for="mensaje">Mensaje (opcional)</label>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="terminosCheck" required>
+                    <label class="form-check-label" for="terminosCheck">
+                      Acepto los términos y condiciones y la política de privacidad
+                    </label>
+                  </div>
+                </div>
+                <div class="col-12 text-center mt-4">
+                  <button type="submit" class="btn btn-primary btn-lg px-5">Enviar solicitud</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 text-center mt-4">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdAnuSTYfv4Fu_qeQHCjZNohwdrRZnN-AIg_qpioM8KY_JFsQ/viewform" target="_blank" class="btn btn-outline-secondary btn-lg px-4 ms-2">
+        <i class="bi bi-clipboard-check me-2"></i>Completar Encuesta
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6">
+          <h4 class="mb-4">GOTAGAS</h4>
+          <p>Proveemos servicios de calidad en distribución de agua y gas para hogares y negocios, con los mejores precios del mercado y un servicio excepcional.</p>
+          <div class="social-links mt-4">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-instagram"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <h4 class="mb-4">Enlaces rápidos</h4>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#hero"><i class="bi bi-chevron-right me-2"></i>Inicio</a></li>
+            <li class="mb-2"><a href="#servicios"><i class="bi bi-chevron-right me-2"></i>Servicios</a></li>
+            <li class="mb-2"><a href="#mision"><i class="bi bi-chevron-right me-2"></i>Misión</a></li>
+            <li class="mb-2"><a href="#vision"><i class="bi bi-chevron-right me-2"></i>Visión</a></li>
+            <li class="mb-2"><a href="#registro"><i class="bi bi-chevron-right me-2"></i>Contacto</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <h4 class="mb-4">Contacto</h4>
+          <p><i class="bi bi-geo-alt me-2"></i> Av. Principal #123, Ciudad</p>
+          <p><i class="bi bi-phone me-2"></i> +52 123 456 7890</p>
+          <p><i class="bi bi-envelope me-2"></i> info@gotagas.com</p>
+          <p><i class="bi bi-clock me-2"></i> Lunes - Domingo: 8:00 AM - 8:00 PM</p>
+        </div>
+      </div>
+      <hr class="mt-4 mb-4" style="background-color: rgba(255,255,255,0.1);">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="mb-md-0">&copy; 2025 GOTAGAS. Todos los derechos reservados.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <a href="#" class="me-3">Política de privacidad</a>
+          <a href="#">Términos y condiciones</a>
+        </div>
+      </div>
+    </div>
+    
+  </footer>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Configuración y código de Firebase igual que antes...
+  
+    // Manejar el envío del formulario
+    document.getElementById('formulario').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      // Mostrar indicador de carga
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...';
+      submitBtn.disabled = true;
+      
+      // Obtener datos del formulario
+      const formData = {
+        nombre: document.getElementById('nombre').value,
+        telefono: document.getElementById('telefono').value,
+        email: document.getElementById('email').value,
+        direccion: document.getElementById('direccion').value,
+        servicio: document.getElementById('servicio').value,
+        mensaje: document.getElementById('mensaje').value,
+        fechaRegistro: new Date()
+      };
+      
+      // Guardar en Firebase
+      db.collection("registros").add(formData)
+        .then(function(docRef) {
+          console.log("Documento guardado con ID: ", docRef.id);
+          
+          // Enviar datos a FormSubmit que mandará el email
+          const formSubmitData = new FormData();
+          formSubmitData.append('nombre', formData.nombre);
+          formSubmitData.append('telefono', formData.telefono);
+          formSubmitData.append('email', formData.email);
+          formSubmitData.append('direccion', formData.direccion);
+          formSubmitData.append('servicio', formData.servicio);
+          formSubmitData.append('mensaje', formData.mensaje);
+          
+          return fetch('https://formsubmit.co/gabriel.osito360@gmail.com', {
+            method: 'POST',
+            body: formSubmitData
+          });
+        })
+        .then(response => {
+          if (response.ok) {
+            // Resetear formulario
+            document.getElementById('formulario').reset();
+            
+            // Mostrar mensaje de éxito
+            alert('¡Gracias por registrarte! En breve nos pondremos en contacto contigo.');
+            
+            // Preguntar por la encuesta
+            if (confirm('¿Te gustaría completar una breve encuesta de satisfacción?')) {
+              window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSdAnuSTYfv4Fu_qeQHCjZNohwdrRZnN-AIg_qpioM8KY_JFsQ/viewform';
+            }
+          } else {
+            throw new Error('Error en el envío del email');
+          }
+        })
+        .catch(function(error) {
+          console.error("Error: ", error);
+          alert('Hubo un error al enviar tus datos. Por favor, intenta nuevamente.');
+        })
+        .finally(function() {
+          // Restaurar botón
+          submitBtn.innerHTML = originalBtnText;
+          submitBtn.disabled = false;
+        });
+    });
+  </script>
+  <!-- Custom JS -->
